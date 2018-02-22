@@ -18,7 +18,6 @@ public class CameraRaycasterEditor : Editor
             {
                 BindArraySize();
                 BindArrayElements();
-                BindMyString();
             }
             EditorGUI.indentLevel--;
         }
@@ -44,11 +43,5 @@ public class CameraRaycasterEditor : Editor
             var prop = serializedObject.FindProperty(string.Format("layerPriorities.Array.data[{0}]", i));
             prop.intValue = EditorGUILayout.LayerField(string.Format("Layer {0}:", i), prop.intValue);
         }
-    }
-
-    void BindMyString()
-    {
-        SerializedProperty currentString = serializedObject.FindProperty("stringToPrint");
-        currentString.stringValue = EditorGUILayout.TextField("String to print", currentString.stringValue);
     }
 }

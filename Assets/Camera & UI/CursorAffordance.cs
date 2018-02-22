@@ -10,6 +10,7 @@ public class CursorAffordance : MonoBehaviour {
     [SerializeField] Texture2D enemyCursor = null;
     [SerializeField] Texture2D unknownCursor = null;
 
+    // TODO: pull layer numbers from source of truth
     [SerializeField] const int walkableLayerNumber = 8;
     [SerializeField] const int enemyLayerNumber = 9;
 
@@ -23,6 +24,7 @@ public class CursorAffordance : MonoBehaviour {
 
     void OnCursorLayerChange(int newLayer)
     {
+        print("Layer changed to " + newLayer);
         Texture2D cursorTexture = null;
 
         switch (newLayer)

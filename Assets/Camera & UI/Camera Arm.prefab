@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d02853f5d34bd8f429969ac34c466d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerPriorities: 
+  layerPriorities: 0800000009000000
 --- !u!124 &124704640287515058
 Behaviour:
   m_ObjectHideFlags: 1

@@ -1,29 +1,38 @@
 using UnityEngine;
+using UnityEngine.AI;
 using UnityStandardAssets.Characters.ThirdPerson;
 
+[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(AICharacterControl))]
 [RequireComponent(typeof (ThirdPersonCharacter))]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] InputMode inputMode = InputMode.Mouse;
-    [SerializeField] static float Epsilon = 0.1f;
-    [SerializeField] float MoveRadiusThreshold = 0f;
-    [SerializeField] float AttackRadiusThreshold = 5f;
 
     [SerializeField] const int walkableLayerNumber = 8;
     [SerializeField] const int enemyLayerNumber = 9;
 
-    ThirdPersonCharacter character;   // A reference to the ThirdPersonCharacter on the object
+    ThirdPersonCharacter character;
+    NavMeshAgent navMeshAgent;
+    AICharacterControl aiCharacterControl;
     CameraRaycaster cameraRaycaster;
-    Vector3 currentDestination, clickPoint;
+    GameObject walkTarget;
     
     // TODO: Implement jump
+
+    // Implement move to enemy
+    // click on enemy - set aicharactercontrol target to enemy transform
+    // click on ground - set aicharactercontrol target to ground transform (with 0 stopping distance?)
         
     private void Start()
     {
         cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
-        cameraRaycaster.notifyMouseClickObservers += OnClickPriorityLayer;
         character = GetComponent<ThirdPersonCharacter>();
-        currentDestination = transform.position;
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        aiCharacterControl = GetComponent<AICharacterControl>();
+        walkTarget = new GameObject("WalkTarget");
+
+        cameraRaycaster.notifyMouseClickObservers += OnClickPriorityLayer;
     }
 
     // Fixed update is called in sync with physics
@@ -34,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
         switch (inputMode)
         {
             case InputMode.Mouse:
-                ProcessMouseMovement();
+                //ProcessMouseMovement();
                 break;
 
             case InputMode.Gamepad:
@@ -45,36 +54,26 @@ public class PlayerMovement : MonoBehaviour
                 // Undefined movement mode
                 break;
         }
-        
     }
 
     void OnClickPriorityLayer(RaycastHit raycastHit, int layerHit)
     {
-        clickPoint = raycastHit.point;
+        if (inputMode != InputMode.Mouse)
+        {
+            return;
+        }
+
         print("Cursor raycast hit " + layerHit);
         switch (layerHit)
         {
             case walkableLayerNumber:
-                currentDestination = ShortDestination(clickPoint, MoveRadiusThreshold);
+                walkTarget.transform.position = raycastHit.point;
+                aiCharacterControl.SetTarget(walkTarget.transform);
                 break;
 
             case enemyLayerNumber:
-                currentDestination = ShortDestination(clickPoint, AttackRadiusThreshold);
+                aiCharacterControl.SetTarget(raycastHit.transform);
                 break;
-        }
-    }
-
-    private void ProcessMouseMovement()
-    {
-        Vector3 moveDirection = currentDestination - transform.position;
-        if (moveDirection.magnitude > Epsilon)
-        {
-            character.Move(moveDirection, false, false);
-        }
-        else
-        {
-            // Avoid infinite circling by ignoring small movements
-            StopMovement();
         }
     }
 
@@ -109,34 +108,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private Vector3 ShortDestination(Vector3 destination, float scaleFactor)
-    {
-        Vector3 reductionVector = (destination - transform.position).normalized * scaleFactor;
-        return destination - reductionVector;
-    }
-
     private void StopMovement()
     {
-        character.Move(Vector3.zero, false, false);
-        currentDestination = transform.position;
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (inputMode == InputMode.Gamepad)
-        {
-            return;
-        }
-
-        // Draw movement gizmos
-        Gizmos.color = Color.black;
-        Gizmos.DrawLine(transform.position, clickPoint);
-        Gizmos.DrawSphere(currentDestination, 0.15f);
-        Gizmos.DrawSphere(clickPoint, 0.1f);
-
-        // Draw attack sphere
-        UnityEditor.Handles.color = Color.red;
-        UnityEditor.Handles.DrawWireDisc(transform.position, transform.up, AttackRadiusThreshold);
+        aiCharacterControl.SetTarget(gameObject.transform);
     }
 }
 

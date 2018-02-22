@@ -13,8 +13,6 @@ public class Enemy : MonoBehaviour {
 
     float currentHealthPoints = 100f;
 
-    bool chasingPlayer = false;
-
     void Start()
     {
         aiCharacterControl = GetComponent<AICharacterControl>();
