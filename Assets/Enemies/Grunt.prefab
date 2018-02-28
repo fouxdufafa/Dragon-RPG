@@ -1374,13 +1374,14 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 149790}
   m_LocalRotation: {x: -0, y: 0.6969622, z: -0, w: 0.71710795}
-  m_LocalPosition: {x: -5.34, y: 0, z: -1.14}
-  m_LocalScale: {x: 1.5000005, y: 0.5, z: 1}
+  m_LocalPosition: {x: -41.159607, y: 0, z: -16.967422}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 469942}
   - {fileID: 495908}
   - {fileID: 448028}
   - {fileID: 4710019606228010}
+  - {fileID: 4052310495197896}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 88.368004, z: 0}
@@ -2493,7 +2494,7 @@ MonoBehaviour:
   m_JumpPower: 12
   m_GravityMultiplier: 3
   m_RunCycleLegOffset: 1
-  m_MoveSpeedMultiplier: 0.5
+  m_MoveSpeedMultiplier: 0.8
   m_AnimSpeedMultiplier: 1
   m_GroundCheckDistance: 0.3
 --- !u!136 &13615390
@@ -2702,6 +2703,21 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 149790}
   m_IsPrefabParent: 1
+--- !u!1 &1452767114845416
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4052310495197896}
+  m_Layer: 9
+  m_Name: Projectile Socket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1836687321309570
 GameObject:
   m_ObjectHideFlags: 0
@@ -2718,6 +2734,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4052310495197896
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1452767114845416}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.733, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 408730}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4710019606228010
 Transform:
   m_ObjectHideFlags: 1
@@ -2769,6 +2798,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthPoints: 100
   attackRadius: 5
+  damagePerShot: 0.1
+  moveRadius: 7
+  projectile: {fileID: 1790941416438102, guid: 085448afa2a900f4e91c46d4e58ddad2, type: 2}
+  projectileSocket: {fileID: 1452767114845416}
 --- !u!195 &195080278316110584
 NavMeshAgent:
   m_ObjectHideFlags: 1
@@ -2780,13 +2813,13 @@ NavMeshAgent:
   m_Radius: 0.5
   m_Speed: 0.8
   m_Acceleration: 8
-  avoidancePriority: 50
+  avoidancePriority: 0
   m_AngularSpeed: 120
   m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
-  m_Height: 2
+  m_Height: 1.5
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4

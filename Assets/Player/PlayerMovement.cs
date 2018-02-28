@@ -12,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] const int walkableLayerNumber = 8;
     [SerializeField] const int enemyLayerNumber = 9;
 
+    [SerializeField] const float walkableStoppingDistance = 0.5f;
+    [SerializeField] const float enemyStoppingDistance = 1.5f;
+
     ThirdPersonCharacter character;
     NavMeshAgent navMeshAgent;
     AICharacterControl aiCharacterControl;
@@ -19,10 +22,7 @@ public class PlayerMovement : MonoBehaviour
     GameObject walkTarget;
     
     // TODO: Implement jump
-
-    // Implement move to enemy
-    // click on enemy - set aicharactercontrol target to enemy transform
-    // click on ground - set aicharactercontrol target to ground transform (with 0 stopping distance?)
+    // TODO: Fix slowness issues with gamepad movement
         
     private void Start()
     {
@@ -63,15 +63,16 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        print("Cursor raycast hit " + layerHit);
         switch (layerHit)
         {
             case walkableLayerNumber:
+                navMeshAgent.stoppingDistance = walkableStoppingDistance;
                 walkTarget.transform.position = raycastHit.point;
                 aiCharacterControl.SetTarget(walkTarget.transform);
                 break;
 
             case enemyLayerNumber:
+                navMeshAgent.stoppingDistance = enemyStoppingDistance;
                 aiCharacterControl.SetTarget(raycastHit.transform);
                 break;
         }

@@ -24,7 +24,6 @@ public class CursorAffordance : MonoBehaviour {
 
     void OnCursorLayerChange(int newLayer)
     {
-        print("Layer changed to " + newLayer);
         Texture2D cursorTexture = null;
 
         switch (newLayer)

@@ -23,7 +23,6 @@ public class CameraRaycaster : MonoBehaviour
 		// Check if pointer is over an interactable UI element
 		if (EventSystem.current.IsPointerOverGameObject ())
 		{
-            print("Hit ui element");
 			NotifyObserversIfLayerChanged (5);
 			return; // Stop looking for other objects
 		}
@@ -35,7 +34,6 @@ public class CameraRaycaster : MonoBehaviour
         RaycastHit? priorityHit = FindTopPriorityHit(raycastHits);
         if (!priorityHit.HasValue) // if hit no priority object
 		{
-            print("Hit default");
 			NotifyObserversIfLayerChanged (0); // broadcast default layer
 			return;
 		}
@@ -66,7 +64,6 @@ public class CameraRaycaster : MonoBehaviour
 		List<int> layersOfHitColliders = new List<int> ();
 		foreach (RaycastHit hit in raycastHits)
 		{
-            print(hit.collider.gameObject.layer);
 			layersOfHitColliders.Add (hit.collider.gameObject.layer);
 		}
 
